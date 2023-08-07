@@ -1,35 +1,33 @@
 const puppeteer = require("puppeteer");
 
-async function sportsbet() {
+async function sportsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-	await page.goto("https://www.sportsbet.com.au/betting/australian-rules/afl");
+	await page.goto(`https://www.sportsbet.com.au/betting/${sport}`);
 
-	const teamsPlayingWithOdds = await page.evaluate(() => {
-		const teams = document.querySelectorAll(
-			".multiMarketCouponContainer_f234ak7"
+	const teamsAndOdds = await page.evaluate(() => {
+		const gamesList = [];
+
+		const team1 = document.querySelectorAll(
+			"[data-automation-id='participant-one']"
+		);
+
+		const team2 = document.querySelectorAll(
+			"[data-automation-id='participant-two']"
 		);
 
 		const teamsOdds = document.querySelectorAll(
 			"[data-automation-id='price-text']"
 		);
 
-		const gamesList = [];
-
-		teams.forEach((game) => {
-			const firstTeam = game.querySelector(
-				"[data-automation-id='participant-one']"
-			);
-			const secondTeam = game.querySelector(
-				"[data-automation-id='participant-two']"
-			);
-
-			const gameData = {
-				firstTeam: firstTeam.textContent,
-				secondTeam: secondTeam.textContent,
+		for (let i = 0; i < team1.length; i++) {
+			const gamesData = {
+				firstTeam: team1[i].innerHTML,
+				secondTeam: team2[i].innerHTML,
 			};
-			gamesList.push(gameData);
-		});
+
+			gamesList.push(gamesData);
+		}
 
 		let oddsData = [];
 		let skipCount = 0;
@@ -41,6 +39,7 @@ async function sportsbet() {
 				skipCount--;
 			}
 		}
+
 		let j = 0;
 		for (let i = 0; i < gamesList.length; i++) {
 			gamesList[i].firstTeamOdds = oddsData[j];
@@ -51,9 +50,9 @@ async function sportsbet() {
 		return gamesList;
 	});
 
-	console.log(teamsPlayingWithOdds);
+	console.log(teamsAndOdds);
 
 	await browser.close();
 }
 
-sportsbet();
+sportsbet("australian-rules/afl");

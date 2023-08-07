@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node sportsbet"
+		"start": "node ./scripts/sportsbet"
 	},
 	"author": "",
 	"license": "ISC",

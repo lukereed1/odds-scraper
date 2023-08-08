@@ -39,8 +39,10 @@ async function neds(sport) {
 		return gamesList;
 	});
 
-	console.log(teamAndOdds);
 	await browser.close();
+	return teamAndOdds;
 }
 
-neds("australian-rules/afl");
+module.exports = {
+	neds,
+};

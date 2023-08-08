@@ -1,5 +1,8 @@
 const puppeteer = require("puppeteer");
 
+/*--------------------------------------------------------------------*/
+/*------------------------Rugby league and AFL------------------------*/
+/*--------------------------------------------------------------------*/
 async function sportsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -8,27 +11,31 @@ async function sportsbet(sport) {
 	const teamsAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 
+		// All home teams
 		const team1 = document.querySelectorAll(
 			"[data-automation-id='participant-one']"
 		);
 
+		// All away teams
 		const team2 = document.querySelectorAll(
 			"[data-automation-id='participant-two']"
 		);
 
+		// All odds data
 		const teamsOdds = document.querySelectorAll(
 			"[data-automation-id='price-text']"
 		);
 
+		// Creates objects of each game and inserts into games array
 		for (let i = 0; i < team1.length; i++) {
 			const gamesData = {
 				firstTeam: team1[i].innerHTML,
 				secondTeam: team2[i].innerHTML,
 			};
-
 			gamesList.push(gamesData);
 		}
 
+		// Gets all odds data (Removed line odds for now) and inserts into odds data array
 		let oddsData = [];
 		let skipCount = 0;
 		for (let i = 0; i < teamsOdds.length; i++) {
@@ -40,6 +47,7 @@ async function sportsbet(sport) {
 			}
 		}
 
+		// Inserts odds into games array with corresponding teams
 		let j = 0;
 		for (let i = 0; i < gamesList.length; i++) {
 			gamesList[i].firstTeamOdds = oddsData[j];
@@ -55,4 +63,4 @@ async function sportsbet(sport) {
 	await browser.close();
 }
 
-sportsbet("australian-rules/afl");
+sportsbet("rugby-league");

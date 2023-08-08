@@ -18,7 +18,17 @@ const afl = async (req, res) => {
 	}
 };
 
+const baseball = async (req, res) => {
+	try {
+		const gameData = await neds("baseball/mlb");
+		res.status(200).json(gameData);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
 module.exports = {
 	rugbyLeague,
 	afl,
+	baseball,
 };

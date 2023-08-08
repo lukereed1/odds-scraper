@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 
 /*--------------------------------------------------------------------*/
-/*------------------------Rugby league and AFL------------------------*/
+/*--------------------Rugby league, AFL, Baseball---------------------*/
 /*--------------------------------------------------------------------*/
 async function neds(sport) {
 	const browser = await puppeteer.launch();

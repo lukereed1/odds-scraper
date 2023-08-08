@@ -57,10 +57,10 @@ async function sportsbet(sport) {
 
 		return gamesList;
 	});
-
-	console.log(teamsAndOdds);
-
 	await browser.close();
+	return teamsAndOdds;
 }
 
-sportsbet("rugby-league");
+module.exports = {
+	sportsbet,
+};

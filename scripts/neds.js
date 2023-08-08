@@ -28,6 +28,7 @@ async function neds(sport) {
 			gamesList.push(gamesData);
 		}
 
+		// Inserts odds with teams in games list
 		let j = 0;
 		for (let i = 0; i < gamesList.length; i++) {
 			gamesList[i].firstTeamOdds = teamsOdds[j].innerHTML;
@@ -42,4 +43,4 @@ async function neds(sport) {
 	await browser.close();
 }
 
-neds();
+neds("australian-rules/afl");

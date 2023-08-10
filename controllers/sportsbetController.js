@@ -12,7 +12,7 @@ const rugbyLeague = async (req, res) => {
 const afl = async (req, res) => {
 	try {
 		const gameData = await sportsbet("australian-rules/afl");
-		res.status(200).json({ gameData });
+		res.status(200).json(gameData);
 	} catch (error) {
 		res.status(500).json({ message: error });
 	}

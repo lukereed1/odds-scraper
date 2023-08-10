@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { rugbyLeague } = require("../controllers/unibetController");
+const { rugbyLeague, afl } = require("../controllers/unibetController");
 
 router.get("/rugby-league", rugbyLeague);
+router.get("/afl", afl);
 
-module.export = router;
+module.exports = router;

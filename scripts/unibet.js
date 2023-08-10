@@ -49,8 +49,6 @@ async function unibet(sport) {
 	return teamAndOdds;
 }
 
-unibet("australian_rules/afl");
-
 module.exports = {
 	unibet,
 };

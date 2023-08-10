@@ -16,7 +16,10 @@ async function unibet() {
 		// All team names
 		let allTeams = [];
 		for (let i = 0; i < allGames.length; i++)
-			allTeams.push(allGames[i].innerHTML);
+			allTeams.push({
+				team: allGames[i].innerHTML,
+				odds: allOdds[i].innerHTML,
+			});
 
 		// Removes duplicate teams
 		allTeams = allTeams.filter((value, index) => {
@@ -30,20 +33,20 @@ async function unibet() {
 		});
 
 		// Groups teams playing each other into objects
-		for (let i = 0; i < allTeams.length; i += 2) {
-			gameData = {
-				firstTeam: allTeams[i],
-				secondTeam: allTeams[i + 1],
-			};
-			gamesList.push(gameData);
-		}
+		// for (let i = 0; i < allTeams.length; i += 2) {
+		// 	gameData = {
+		// 		firstTeam: allTeams[i],
+		// 		secondTeam: allTeams[i + 1],
+		// 	};
+		// 	gamesList.push(gameData);
+		// }
 
-		const test = [];
-		for (let i = 0; i < allOdds.length; i++) {
-			test.push(allOdds[i].innerHTML);
-		}
+		// const test = [];
+		// for (let i = 0; i < allOdds.length; i++) {
+		// 	test.push(allOdds[i].innerHTML);
+		// }
 
-		return test;
+		return allTeams;
 	});
 
 	console.log(teamAndOdds);

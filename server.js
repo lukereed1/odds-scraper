@@ -12,5 +12,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/sportsbet", require("./routes/sportsbetRoutes"));
 app.use("/api/neds", require("./routes/nedsRoutes"));
 app.use("/api/unibet", require("./routes/unibetRoutes"));
+app.use("/api/pointsbet", require("./routes/pointsbetRoutes"));
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

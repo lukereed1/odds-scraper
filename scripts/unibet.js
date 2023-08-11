@@ -1,5 +1,8 @@
 const puppeteer = require("puppeteer");
 
+/*--------------------------------------------------------------------*/
+/*------------------------Rugby league and AFL------------------------*/
+/*--------------------------------------------------------------------*/
 async function unibet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -45,6 +48,7 @@ async function unibet(sport) {
 
 		return gamesList;
 	});
+
 	await browser.close();
 	return teamAndOdds;
 }

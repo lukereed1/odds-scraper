@@ -57,6 +57,7 @@ async function sportsbet(sport) {
 
 		return gamesList;
 	});
+
 	return teamsAndOdds;
 	await browser.close();
 }

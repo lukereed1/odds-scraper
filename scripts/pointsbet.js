@@ -1,6 +1,8 @@
-const { all } = require("axios");
 const puppeteer = require("puppeteer");
 
+/*--------------------------------------------------------------------*/
+/*------------------------Rugby league and AFL------------------------*/
+/*--------------------------------------------------------------------*/
 async function pointsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -11,10 +13,13 @@ async function pointsbet(sport) {
 	const teamsAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 
+		// All available games
 		const allGames = document.querySelectorAll(".f2rhni5");
 
+		// All available match and line odds
 		const allOddsIncludingLines = document.querySelectorAll(".fheif50");
 
+		// Removes all line odds
 		let oddsDataExcludingLines = [];
 		let skipCount = 0;
 		for (let i = 0; i < allOddsIncludingLines.length; i++) {
@@ -29,6 +34,7 @@ async function pointsbet(sport) {
 			}
 		}
 
+		// Inserts game data into full list of games
 		for (let i = 0; i < allGames.length; i += 2) {
 			const gameData = {
 				firstTeam: allGames[i].innerText,
@@ -38,8 +44,10 @@ async function pointsbet(sport) {
 			};
 			gamesList.push(gameData);
 		}
+
 		return gamesList;
 	});
+
 	await browser.close();
 	return teamsAndOdds;
 }

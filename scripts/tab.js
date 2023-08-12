@@ -3,9 +3,6 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-/*--------------------------------------------------------------------*/
-/*------------------------Rugby league and AFL------------------------*/
-/*--------------------------------------------------------------------*/
 async function tab(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -22,25 +19,10 @@ async function tab(sport) {
 		// All available match and line odds
 		const allOddsIncludingLines = document.querySelectorAll(".animate-odd");
 
-		// Amount of games in progress
-		const howManyGamesInProgress = document.querySelectorAll(".in-play").length;
-
-		// Elements that need to be removed for in progress games
-		const gamesInProgressElementsToRemove = howManyGamesInProgress
-			? howManyGamesInProgress * 2
-			: 0;
-
 		// Removes lines odds
 		let oddsDataExcludingLines = [];
 		let skipCount = 0;
-		for (
-			// Starts loop depending if elements need to be removed if games in progress
-			let i = gamesInProgressElementsToRemove
-				? gamesInProgressElementsToRemove + 1
-				: 1;
-			i < allOddsIncludingLines.length;
-			i++
-		) {
+		for (let i = 1; i < allOddsIncludingLines.length; i++) {
 			if (skipCount === 0) {
 				oddsDataExcludingLines.push(
 					allOddsIncludingLines[i].innerHTML,
@@ -56,11 +38,6 @@ async function tab(sport) {
 		const teamsPlaying = [];
 		for (let i = 0; i < allGames.length; i++) {
 			teamsPlaying.push(allGames[i].innerText);
-		}
-
-		// Removes names of teams already playing
-		if (howManyGamesInProgress) {
-			teamsPlaying.splice(0, gamesInProgressElementsToRemove - 1);
 		}
 
 		// Seperates teams into their own property and inserts all data into list of games

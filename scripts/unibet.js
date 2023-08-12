@@ -40,6 +40,7 @@ async function unibet(sport) {
 		// Groups teams playing each other into objects with corresponding odds
 		for (let i = 0; i < allTeamsAndOdds.length; i += 2) {
 			let gameData = {
+				bookie: "Unibet",
 				firstTeam: allTeamsAndOdds[i].team,
 				secondTeam: allTeamsAndOdds[i + 1].team,
 				firstTeamOdds: allTeamsAndOdds[i].odds,

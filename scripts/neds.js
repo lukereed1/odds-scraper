@@ -24,6 +24,7 @@ async function neds(sport) {
 		// Inserts all team names into games list
 		for (let i = 0; i < allTeams.length; i += 2) {
 			const gamesData = {
+				bookie: "Neds",
 				firstTeam: allTeams[i].innerHTML,
 				secondTeam: allTeams[i + 1].innerHTML,
 			};

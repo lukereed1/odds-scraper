@@ -39,6 +39,7 @@ async function pointsbet(sport) {
 		// Inserts game data into full list of games
 		for (let i = 0; i < allGames.length; i += 2) {
 			const gameData = {
+				bookie: "Pointsbet",
 				firstTeam: allGames[i].innerText,
 				secondTeam: allGames[i + 1].innerText,
 				firstTeamOdds: oddsDataExcludingLines[i],

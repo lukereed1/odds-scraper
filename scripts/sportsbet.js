@@ -31,6 +31,7 @@ async function sportsbet(sport) {
 		// Creates objects of each game and inserts into games array
 		for (let i = 0; i < team1.length; i++) {
 			const gamesData = {
+				bookie: "Sportsbet",
 				firstTeam: team1[i].innerHTML,
 				secondTeam: team2[i].innerHTML,
 			};
@@ -60,8 +61,8 @@ async function sportsbet(sport) {
 		return gamesList;
 	});
 
-	return teamsAndOdds;
 	await browser.close();
+	return teamsAndOdds;
 }
 
 module.exports = {

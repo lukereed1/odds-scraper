@@ -8,7 +8,9 @@ puppeteer.use(StealthPlugin());
 async function sportsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-	await page.goto(`https://www.sportsbet.com.au/betting/${sport}`);
+	await page.goto(`https://www.sportsbet.com.au/betting/${sport}`, {
+		waitUntil: "networkidle2",
+	});
 
 	const teamsAndOdds = await page.evaluate(() => {
 		const gamesList = [];

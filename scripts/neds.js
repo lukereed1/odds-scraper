@@ -8,7 +8,9 @@ puppeteer.use(StealthPlugin());
 async function neds(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-	await page.goto(`https://www.neds.com.au/sports/${sport}`);
+	await page.goto(`https://www.neds.com.au/sports/${sport}`, {
+		waitUntil: "networkidle2",
+	});
 
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];

@@ -9,7 +9,10 @@ async function unibet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	await page.goto(
-		`https://www.unibet.com.au/betting/sports/filter/${sport}/all/matches`
+		`https://www.unibet.com.au/betting/sports/filter/${sport}/all/matches`,
+		{
+			waitUntil: "networkidle2",
+		}
 	);
 
 	const teamAndOdds = await page.evaluate(() => {

@@ -21,20 +21,27 @@ async function pointsbet(sport) {
 		// All available match and line odds
 		const allOddsIncludingLines = document.querySelectorAll(".fheif50");
 
-		// Removes all line odds
 		let oddsDataExcludingLines = [];
-		let skipCount = 0;
-		for (let i = 0; i < allOddsIncludingLines.length; i++) {
-			if (skipCount === 0) {
-				oddsDataExcludingLines.push(
-					allOddsIncludingLines[i].innerHTML,
-					allOddsIncludingLines[i + 3].innerHTML
-				);
-				skipCount = 5;
-			} else {
-				skipCount--;
+		if (allOddsIncludingLines.length > allGames.length * 2) {
+			let skipCount = 0;
+			for (let i = 0; i < allOddsIncludingLines.length; i++) {
+				if (skipCount === 0) {
+					oddsDataExcludingLines.push(
+						allOddsIncludingLines[i].innerHTML,
+						allOddsIncludingLines[i + 3].innerHTML
+					);
+					skipCount = 5;
+				} else {
+					skipCount--;
+				}
+			}
+		} else {
+			for (let i = 0; i < allOddsIncludingLines.length; i += 2) {
+				oddsDataExcludingLines.push(allOddsIncludingLines[i].innerHTML);
 			}
 		}
+
+		// Removes all line odds
 
 		// Inserts game data into full list of games
 		for (let i = 0; i < allGames.length; i += 2) {

@@ -21,17 +21,23 @@ async function tab(sport) {
 
 		// Removes lines odds
 		let oddsDataExcludingLines = [];
-		let skipCount = 0;
-		for (let i = 1; i < allOddsIncludingLines.length; i++) {
-			if (skipCount === 0) {
-				oddsDataExcludingLines.push(
-					allOddsIncludingLines[i].innerHTML,
-					allOddsIncludingLines[i + 1].innerHTML
-				);
-				skipCount = 3;
-			} else {
-				skipCount--;
+		if (allOddsIncludingLines.length > allGames.length * 2) {
+			let skipCount = 0;
+			for (let i = 1; i < allOddsIncludingLines.length; i++) {
+				if (skipCount === 0) {
+					oddsDataExcludingLines.push(
+						allOddsIncludingLines[i].innerHTML,
+						allOddsIncludingLines[i + 1].innerHTML
+					);
+					skipCount = 3;
+				} else {
+					skipCount--;
+				}
 			}
+		} else {
+			allOddsIncludingLines.forEach((odds) =>
+				oddsDataExcludingLines.push(odds.innerHTML)
+			);
 		}
 
 		// Inserts all teams playing into array

@@ -1,8 +1,8 @@
-const { sportsbet } = require("../scripts/sportsbet");
+const { sportsbetAFL, sportsbetNRL } = require("../scripts/sportsbet");
 
 const rugbyLeague = async (req, res) => {
 	try {
-		const gameData = await sportsbet("rugby-league/nrl");
+		const gameData = await sportsbetNRL();
 		res.status(200).json(gameData);
 	} catch (error) {
 		res.status(500).json({ error });
@@ -11,7 +11,7 @@ const rugbyLeague = async (req, res) => {
 
 const afl = async (req, res) => {
 	try {
-		const gameData = await sportsbet("australian-rules/afl");
+		const gameData = await sportsbetAFL();
 		res.status(200).json(gameData);
 	} catch (error) {
 		res.status(500).json({ message: error });

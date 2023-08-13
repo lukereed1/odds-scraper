@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"start": "node ./scripts/pointsbet",
+		"start": "node ./scripts/sportsbet",
 		"server": "nodemon server.js"
 	},
 	"author": "",

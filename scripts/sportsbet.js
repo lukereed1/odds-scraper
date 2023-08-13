@@ -42,14 +42,8 @@ async function sportsbet(sport) {
 
 		// Gets all odds data (Removed line odds for now) and inserts into odds data array
 		let oddsData = [];
-		let skipCount = 0;
-		for (let i = 0; i < teamsOdds.length; i++) {
-			if (skipCount === 0) {
-				oddsData.push(teamsOdds[i].innerHTML, teamsOdds[i + 1].innerHTML);
-				skipCount = 5;
-			} else {
-				skipCount--;
-			}
+		for (let i = 0; i < teamsOdds.length; i += 4) {
+			oddsData.push(teamsOdds[i].innerHTML, teamsOdds[i + 1].innerHTML);
 		}
 
 		// Inserts odds into games array with corresponding teams

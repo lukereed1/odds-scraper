@@ -18,27 +18,50 @@ async function unibet(sport) {
 	const teamAndOdds = await page.evaluate(() => {
 		let gamesList = [];
 
-		const allGames = document.querySelectorAll(".c539a");
-		const allOdds = document.querySelectorAll("._8e013");
+		const allGames = document.querySelectorAll("._4d3a0");
+
+		const allGamesNoDuplicates = [];
+		allGames.forEach((game) => {
+			let participant = game.querySelectorAll(".c539a");
+			allGamesNoDuplicates.push(
+				participant[0].innerText,
+				participant[1].innerText
+			);
+		});
+
+		const allOddsIncludingLines = document.querySelectorAll(".bb419");
+
+		const OddsDataExludingLines = [];
+
+		// Runs if line odds are present
+		if (allOddsIncludingLines.length > allGames.length) {
+			for (let i = 0; i < allOddsIncludingLines.length; i += 2) {
+				let matchOdds = allOddsIncludingLines[i].querySelectorAll("._8e013");
+				OddsDataExludingLines.push(
+					matchOdds[0].innerText,
+					matchOdds[1].innerText
+				);
+			}
+		}
+
+		// Runs if no line odds are present
+		if (allOddsIncludingLines.length * 2 === allGamesNoDuplicates.length) {
+			for (let i = 0; i < allOddsIncludingLines.length; i++) {
+				let matchOdds = allOddsIncludingLines[i].querySelectorAll("._8e013");
+				OddsDataExludingLines.push(
+					matchOdds[0].innerText,
+					matchOdds[1].innerText
+				);
+			}
+		}
 
 		// All team names and odds including duplicates
 		let allTeamsAndOdds = [];
-		for (let i = 0; i < allGames.length; i++)
+		for (let i = 0; i < allGamesNoDuplicates.length; i++)
 			allTeamsAndOdds.push({
-				team: allGames[i].innerHTML,
-				odds: allOdds[i].innerHTML,
+				team: allGamesNoDuplicates[i],
+				odds: OddsDataExludingLines[i],
 			});
-
-		// Removes duplicate teams and odds
-		allTeamsAndOdds = allTeamsAndOdds.filter((value, index) => {
-			const _value = JSON.stringify(value);
-			return (
-				index ===
-				allTeamsAndOdds.findIndex((obj) => {
-					return JSON.stringify(obj) === _value;
-				})
-			);
-		});
 
 		// Groups teams playing each other into objects with corresponding odds
 		for (let i = 0; i < allTeamsAndOdds.length; i += 2) {

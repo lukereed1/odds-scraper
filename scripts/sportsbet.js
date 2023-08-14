@@ -3,71 +3,12 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 /*--------------------------------------------------------------------*/
-/*-------------------------------AFL----------------------------------*/
+/*------------------------Rugby League, AFL---------------------------*/
 /*--------------------------------------------------------------------*/
-async function sportsbetAFL() {
+async function sportsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-	await page.goto("https://www.sportsbet.com.au/betting/australian-rules/afl", {
-		waitUntil: "networkidle2",
-	});
-
-	const teamsAndOdds = await page.evaluate(() => {
-		const gamesList = [];
-
-		// All home teams
-		const team1 = document.querySelectorAll(
-			"[data-automation-id='participant-one']"
-		);
-
-		// All away teams
-		const team2 = document.querySelectorAll(
-			"[data-automation-id='participant-two']"
-		);
-
-		// All odds data
-		const teamsOdds = document.querySelectorAll(
-			"[data-automation-id='price-text']"
-		);
-
-		// Creates objects of each game and inserts into games array
-		for (let i = 0; i < team1.length; i++) {
-			const gamesData = {
-				bookie: "Sportsbet",
-				firstTeam: team1[i].innerHTML,
-				secondTeam: team2[i].innerHTML,
-			};
-			gamesList.push(gamesData);
-		}
-
-		// Gets all odds data (Removed line odds for now) and inserts into odds data array
-		let oddsData = [];
-		for (let i = 0; i < teamsOdds.length; i += 4) {
-			oddsData.push(teamsOdds[i].innerHTML, teamsOdds[i + 1].innerHTML);
-		}
-
-		// Inserts odds into games array with corresponding teams
-		let j = 0;
-		for (let i = 0; i < gamesList.length; i++) {
-			gamesList[i].firstTeamOdds = oddsData[j];
-			gamesList[i].secondTeamOdds = oddsData[j + 1];
-			j += 2;
-		}
-
-		return gamesList;
-	});
-
-	await browser.close();
-	return teamsAndOdds;
-}
-
-/*--------------------------------------------------------------------*/
-/*---------------------------Rugby League-----------------------------*/
-/*--------------------------------------------------------------------*/
-async function sportsbetNRL() {
-	const browser = await puppeteer.launch();
-	const page = await browser.newPage();
-	await page.goto("https://www.sportsbet.com.au/betting/rugby-league/nrl", {
+	await page.goto(`https://www.sportsbet.com.au/betting/${sport}`, {
 		waitUntil: "networkidle2",
 	});
 
@@ -127,6 +68,5 @@ async function sportsbetNRL() {
 }
 
 module.exports = {
-	sportsbetAFL,
-	sportsbetNRL,
+	sportsbet,
 };

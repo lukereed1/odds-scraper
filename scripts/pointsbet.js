@@ -21,6 +21,7 @@ async function pointsbet(sport) {
 		// All available match and line odds
 		const allOddsIncludingLines = document.querySelectorAll(".fheif50");
 
+		// Removes line odds if present
 		let oddsDataExcludingLines = [];
 		if (allOddsIncludingLines.length > allGames.length * 2) {
 			let skipCount = 0;
@@ -40,8 +41,6 @@ async function pointsbet(sport) {
 				oddsDataExcludingLines.push(allOddsIncludingLines[i].innerHTML);
 			}
 		}
-
-		// Removes all line odds
 
 		// Inserts game data into full list of games
 		for (let i = 0; i < allGames.length; i += 2) {

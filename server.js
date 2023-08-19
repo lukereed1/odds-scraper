@@ -15,4 +15,6 @@ app.use("/api/unibet", require("./routes/unibetRoutes"));
 app.use("/api/pointsbet", require("./routes/pointsbetRoutes"));
 app.use("/api/tab", require("./routes/tabRoutes"));
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => {
+	console.log(`Server started on port: ${port}`);
+});

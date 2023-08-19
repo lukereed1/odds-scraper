@@ -18,6 +18,7 @@ async function unibet(sport) {
 	const teamAndOdds = await page.evaluate(() => {
 		let gamesList = [];
 
+		// All games
 		const allGames = document.querySelectorAll("._4d3a0");
 
 		const allGamesNoDuplicates = [];
@@ -32,7 +33,6 @@ async function unibet(sport) {
 		const allOddsIncludingLines = document.querySelectorAll(".bb419");
 
 		const OddsDataExludingLines = [];
-
 		// Runs if line odds are present
 		if (allOddsIncludingLines.length > allGames.length) {
 			for (let i = 0; i < allOddsIncludingLines.length; i += 2) {
@@ -55,7 +55,7 @@ async function unibet(sport) {
 			}
 		}
 
-		// All team names and odds including duplicates
+		// All team names and odds, without duplicates
 		let allTeamsAndOdds = [];
 		for (let i = 0; i < allGamesNoDuplicates.length; i++)
 			allTeamsAndOdds.push({

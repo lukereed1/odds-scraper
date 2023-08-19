@@ -22,7 +22,7 @@ async function tab(sport) {
 		// All available match and line odds
 		const allOddsIncludingLines = document.querySelectorAll(".animate-odd");
 
-		// Removes lines odds
+		// Removes lines odds if present
 		let oddsDataExcludingLines = [];
 		if (allOddsIncludingLines.length > allGames.length * 2) {
 			let skipCount = 0;

@@ -3,13 +3,17 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "server.js",
+	"bin": "server.js",
 	"scripts": {
-		"start": "node ./scripts/unibet",
-		"server": "nodemon server.js"
+		"start": "node server.js",
+		"server": "nodemon server.js",
+		"build": "rm -rf build && pkg . --out-path build",
+		"postbuild": "cp -R ./node_modules/puppeteer/.local-chromium build/chromium"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"axios": "0.27.2",
 		"concurrently": "^8.2.0",
 		"cors": "^2.8.5",
 		"dotenv": "^16.3.1",

@@ -26,9 +26,15 @@ async function sportsbet(sport) {
 		);
 
 		// All odds data
-		const teamsOdds = document.querySelectorAll(
-			"[data-automation-id='price-text']"
+		const teamsOddsColumn = document.querySelectorAll(
+			".market-coupon-col-0.gridColumn_frfjtr6"
 		);
+
+		const allOdds = [];
+		teamsOddsColumn.forEach((game) => {
+			let odds = game.querySelectorAll(".priceButton_f1h1fl2e");
+			odds.forEach((oddsData) => allOdds.push(oddsData.innerText));
+		});
 
 		// Creates objects of each game and inserts into games array
 		for (let i = 0; i < team1.length; i++) {
@@ -40,24 +46,12 @@ async function sportsbet(sport) {
 			gamesList.push(gamesData);
 		}
 
-		// Gets all odds data (Removed line odds for now) and inserts into odds data array
-		let oddsData = [];
-		let skipCount = 0;
-		for (let i = 0; i < teamsOdds.length; i++) {
-			if (skipCount === 0) {
-				oddsData.push(teamsOdds[i].innerHTML, teamsOdds[i + 1].innerHTML);
-				skipCount = 5;
-			} else {
-				skipCount--;
-			}
-		}
-
-		// Inserts odds into games array with corresponding teams
+		// Inserts odds
 		let j = 0;
-		for (let i = 0; i < gamesList.length; i++) {
-			gamesList[i].firstTeamOdds = oddsData[j];
-			gamesList[i].secondTeamOdds = oddsData[j + 1];
-			j += 2;
+		for (let i = 0; i < allOdds.length; i += 2) {
+			gamesList[j].firstTeamOdds = allOdds[i];
+			gamesList[j].secondTeamOdds = allOdds[i + 1];
+			j++;
 		}
 
 		return gamesList;

@@ -1,8 +1,8 @@
-const { unibet } = require("../scripts/unibet");
+const { topsport } = require("../scripts/topsport");
 
 const rugbyLeague = async (req, res) => {
 	try {
-		const gameData = await unibet("rugby_league/nrl");
+		const gameData = await topsport("rugby-league");
 		res.status(200).json(gameData);
 	} catch (error) {
 		res.status(500).json({ message: error });
@@ -11,7 +11,7 @@ const rugbyLeague = async (req, res) => {
 
 const afl = async (req, res) => {
 	try {
-		const gameData = await unibet("australian_rules/afl");
+		const gameData = await topsport("afl");
 		res.status(200).json(gameData);
 	} catch (error) {
 		res.status(500).json({ message: error });

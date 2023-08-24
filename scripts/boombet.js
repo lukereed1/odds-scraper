@@ -35,6 +35,7 @@ async function boombet(sport) {
 		return gamesList;
 	});
 
+	await browser.close();
 	return teamAndOdds;
 }
 

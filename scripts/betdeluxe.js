@@ -46,6 +46,7 @@ async function betdeluxe(sportURL) {
 		return gamesList;
 	});
 
+	await browser.close();
 	return teamAndOdds;
 }
 

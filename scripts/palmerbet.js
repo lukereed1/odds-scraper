@@ -35,6 +35,7 @@ async function palmerbet(sportURL) {
 		return gamesList;
 	});
 
+	await browser.close();
 	return teamAndOdds;
 }
 

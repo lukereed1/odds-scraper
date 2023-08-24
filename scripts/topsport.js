@@ -28,7 +28,6 @@ async function topsport(sport) {
 			return hrefElement.getAttribute("href");
 		});
 	}
-
 	// Goes to a new page with href and base URL found above
 	await page.goto(`${baseURL}${href}`, { waitUntil: "networkidle0" });
 
@@ -54,6 +53,8 @@ async function topsport(sport) {
 
 		return gamesList;
 	});
+
+	await browser.close();
 	return teamAndOdds;
 }
 

@@ -9,7 +9,7 @@ async function boombet() {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	await page.goto(
-		`https://www.boombet.com.au/sport-menu/Sport/Australian%20Rules/AFL`,
+		`https://www.boombet.com.au/sport-menu/Sport/Rugby%20League/Australia%20NRL`,
 		{
 			waitUntil: "networkidle2",
 		}

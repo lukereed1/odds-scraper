@@ -11,7 +11,7 @@ async function palmerbet(sportURL) {
 	await page.goto(`${sportURL}`, {
 		waitUntil: "networkidle0",
 	});
-
+	page.setDefaultTimeout(120000);
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 		// All game cards

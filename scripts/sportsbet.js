@@ -11,7 +11,7 @@ async function sportsbet(sport) {
 	await page.goto(`https://www.sportsbet.com.au/betting/${sport}`, {
 		waitUntil: "networkidle2",
 	});
-
+	page.setDefaultTimeout(120000);
 	const teamsAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 

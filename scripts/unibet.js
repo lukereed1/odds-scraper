@@ -14,7 +14,7 @@ async function unibet(sport) {
 			waitUntil: "networkidle2",
 		}
 	);
-
+	page.setDefaultTimeout(120000);
 	const teamAndOdds = await page.evaluate(() => {
 		let gamesList = [];
 

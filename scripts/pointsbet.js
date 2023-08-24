@@ -11,7 +11,7 @@ async function pointsbet(sport) {
 	await page.goto(`https://pointsbet.com.au/sports/${sport}`, {
 		waitUntil: "networkidle2",
 	});
-
+	page.setDefaultTimeout(120000);
 	const teamsAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 

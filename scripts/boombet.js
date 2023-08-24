@@ -11,7 +11,7 @@ async function boombet(sport) {
 	await page.goto(`https://www.boombet.com.au/sport-menu/Sport/${sport}`, {
 		waitUntil: "networkidle2",
 	});
-
+	page.setDefaultTimeout(120000);
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 		// All game cards

@@ -13,7 +13,7 @@ async function topsport(sport) {
 	await page.goto(`${baseURL}`, {
 		waitUntil: "networkidle0",
 	});
-
+	page.setDefaultTimeout(120000);
 	/* URL is different each week as it's based off round number
     below finds the URL for the weekly games based on sport chosen*/
 	let href;

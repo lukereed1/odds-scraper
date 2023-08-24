@@ -11,7 +11,7 @@ async function neds(sport) {
 	await page.goto(`https://www.neds.com.au/sports/${sport}`, {
 		waitUntil: "networkidle2",
 	});
-
+	page.setDefaultTimeout(120000);
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 

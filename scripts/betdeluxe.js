@@ -34,6 +34,7 @@ async function betdeluxe(sportURL) {
 				odds.length > teams.length ? odds[2].innerText : odds[1].innerText;
 
 			const gamesData = {
+				bookie: "BetDeluxe",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
 				firstTeamOdds: firstTeamOdds,

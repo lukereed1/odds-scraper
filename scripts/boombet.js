@@ -23,6 +23,7 @@ async function boombet(sport) {
 			const odds = game.querySelectorAll(".oddsValue.d-block.d-md-flex");
 
 			const gamesData = {
+				bookie: "BoomBet",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
 				firstTeamOdds: odds[0].innerText,

@@ -42,6 +42,7 @@ async function topsport(sport) {
 			const odds = game.querySelectorAll(".betlink.oddsColumn");
 
 			const gamesData = {
+				bookie: "TopSport",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
 				firstTeamOdds: odds[0].innerText,

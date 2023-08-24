@@ -23,6 +23,7 @@ async function palmerbet(sportURL) {
 			const odds = game.querySelectorAll(".ng-star-inserted.alt-button-design");
 
 			const gamesData = {
+				bookie: "PalmerBet",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
 				firstTeamOdds: odds[0].innerText,

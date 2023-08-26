@@ -8,57 +8,40 @@ puppeteer.use(StealthPlugin());
 async function pointsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	page.setDefaultTimeout(120000);
 	await page.goto(`https://pointsbet.com.au/sports/${sport}`, {
 		waitUntil: "networkidle0",
 	});
-	page.setDefaultTimeout(120000);
-	const teamsAndOdds = await page.evaluate(() => {
+
+	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+		// All game cards
+		const gameCards = document.querySelectorAll(".fdz3fpy.f1yn18fe.f93i66z");
 
-		// All available games
-		const allGames = document.querySelectorAll(".f2rhni5");
+		gameCards.forEach((game) => {
+			// All team names and odds within each card
+			const teams = game.querySelectorAll(
+				".f193t5zp.f1r0ggt8.f1wtz5iq.f1rokedd"
+			);
 
-		// All available match and line odds
-		const allOddsIncludingLines = document.querySelectorAll(".fheif50");
+			const odds = game.querySelectorAll(".fheif50");
 
-		// Removes line odds if present
-		let oddsDataExcludingLines = [];
-		if (allOddsIncludingLines.length > allGames.length * 2) {
-			let skipCount = 0;
-			for (let i = 0; i < allOddsIncludingLines.length; i++) {
-				if (skipCount === 0) {
-					oddsDataExcludingLines.push(
-						allOddsIncludingLines[i].innerHTML,
-						allOddsIncludingLines[i + 3].innerHTML
-					);
-					skipCount = 5;
-				} else {
-					skipCount--;
-				}
-			}
-		} else {
-			for (let i = 0; i < allOddsIncludingLines.length; i += 2) {
-				oddsDataExcludingLines.push(allOddsIncludingLines[i].innerHTML);
-			}
-		}
-
-		// Inserts game data into full list of games
-		for (let i = 0; i < allGames.length; i += 2) {
-			const gameData = {
-				bookie: "Pointsbet",
-				firstTeam: allGames[i].innerText,
-				secondTeam: allGames[i + 1].innerText,
-				firstTeamOdds: oddsDataExcludingLines[i],
-				secondTeamOdds: oddsDataExcludingLines[i + 1],
+			const gamesData = {
+				bookie: "Neds",
+				firstTeam: teams[0].innerText,
+				secondTeam: teams[1].innerText,
+				firstTeamOdds: odds[0].innerText,
+				secondTeamOdds: odds[3].innerText,
 			};
-			gamesList.push(gameData);
-		}
+
+			gamesList.push(gamesData);
+		});
 
 		return gamesList;
 	});
-
 	await browser.close();
-	return teamsAndOdds;
+	console.log(teamAndOdds);
 }
 
+pointsbet("rugby-league/NRL");
 module.exports = { pointsbet };

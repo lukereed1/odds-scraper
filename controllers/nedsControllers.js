@@ -18,7 +18,7 @@ const afl = async (req, res) => {
 	}
 };
 
-const baseball = async (req, res) => {
+const mlb = async (req, res) => {
 	try {
 		const gameData = await neds("baseball/mlb");
 		res.status(200).json(gameData);
@@ -27,8 +27,4 @@ const baseball = async (req, res) => {
 	}
 };
 
-module.exports = {
-	rugbyLeague,
-	afl,
-	baseball,
-};
+module.exports = { rugbyLeague, afl, mlb };

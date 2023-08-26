@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { rugbyLeague, afl } = require("../controllers/tabController");
+const { rugbyLeague, afl, mlb } = require("../controllers/tabController");
 
 router.get("/rugby-league", rugbyLeague);
 router.get("/afl", afl);
+router.get("/mlb", mlb);
 
 module.exports = router;

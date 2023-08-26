@@ -19,6 +19,9 @@ async function sportsbet(sport) {
 		);
 
 		gameCards.forEach((game) => {
+			// If game is live, skip it without scraping its data
+			if (game.querySelector(".timeBadge_fcaw44h")) return;
+
 			// All team names and odds within each card
 			const teams = game.querySelectorAll(
 				".size14_f7opyze.Endeavour_fhudrb0.medium_f1wf24vo.participantText_fivg86r"

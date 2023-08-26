@@ -9,7 +9,7 @@ async function pointsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	await page.goto(`https://pointsbet.com.au/sports/${sport}`, {
-		waitUntil: "networkidle2",
+		waitUntil: "networkidle0",
 	});
 	page.setDefaultTimeout(120000);
 	const teamsAndOdds = await page.evaluate(() => {

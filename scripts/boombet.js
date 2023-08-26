@@ -9,7 +9,7 @@ async function boombet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	await page.goto(`https://www.boombet.com.au/sport-menu/Sport/${sport}`, {
-		waitUntil: "networkidle2",
+		waitUntil: "networkidle0",
 	});
 	page.setDefaultTimeout(120000);
 	const teamAndOdds = await page.evaluate(() => {

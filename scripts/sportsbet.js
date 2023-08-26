@@ -8,59 +8,47 @@ puppeteer.use(StealthPlugin());
 async function sportsbet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	page.setDefaultTimeout(120000);
 	await page.goto(`https://www.sportsbet.com.au/betting/${sport}`, {
 		waitUntil: "networkidle2",
 	});
-	page.setDefaultTimeout(120000);
-	const teamsAndOdds = await page.evaluate(() => {
+
+	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
-
-		// All home teams
-		const team1 = document.querySelectorAll(
-			"[data-automation-id='participant-one']"
+		// All game cards
+		const gameCards = document.querySelectorAll(
+			".multiMarketCouponContainer_f234ak7"
 		);
 
-		// All away teams
-		const team2 = document.querySelectorAll(
-			"[data-automation-id='participant-two']"
-		);
+		gameCards.forEach((game) => {
+			// All team names and odds within each card
+			const teams = game.querySelectorAll(
+				".size14_f7opyze.Endeavour_fhudrb0.medium_f1wf24vo.participantText_fivg86r"
+			);
 
-		// All odds data
-		const teamsOddsColumn = document.querySelectorAll(
-			".market-coupon-col-0.gridColumn_frfjtr6"
-		);
+			const oddsColumn = game.querySelector(
+				".market-coupon-col-0.gridColumn_frfjtr6"
+			);
 
-		const allOdds = [];
-		teamsOddsColumn.forEach((game) => {
-			let odds = game.querySelectorAll(".priceButton_f1h1fl2e");
-			odds.forEach((oddsData) => allOdds.push(oddsData.innerText));
-		});
+			const odds = oddsColumn.querySelectorAll(
+				".size14_f7opyze.bold_f1au7gae.priceTextSize_frw9zm9"
+			);
 
-		// Creates objects of each game and inserts into games array
-		for (let i = 0; i < team1.length; i++) {
 			const gamesData = {
-				bookie: "Sportsbet",
-				firstTeam: team1[i].innerHTML,
-				secondTeam: team2[i].innerHTML,
+				bookie: "SportsBet",
+				firstTeam: teams[0].innerText,
+				secondTeam: teams[1].innerText,
+				firstTeamOdds: odds[0].innerText,
+				secondTeamOdds: odds[1].innerText,
 			};
-			gamesList.push(gamesData);
-		}
 
-		// Inserts odds
-		let j = 0;
-		for (let i = 0; i < allOdds.length; i += 2) {
-			gamesList[j].firstTeamOdds = allOdds[i];
-			gamesList[j].secondTeamOdds = allOdds[i + 1];
-			j++;
-		}
+			gamesList.push(gamesData);
+		});
 
 		return gamesList;
 	});
-
 	await browser.close();
-	return teamsAndOdds;
+	return teamAndOdds;
 }
 
-module.exports = {
-	sportsbet,
-};
+module.exports = { sportsbet };

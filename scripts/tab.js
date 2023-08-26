@@ -10,7 +10,7 @@ async function tab(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	await page.goto(`https://www.tab.com.au/sports/betting/${sport}`, {
-		waitUntil: "networkidle2",
+		waitUntil: "networkidle0",
 	});
 	page.setDefaultTimeout(120000);
 	const teamsAndOdds = await page.evaluate(() => {

@@ -11,7 +11,7 @@ async function unibet(sport) {
 	await page.goto(
 		`https://www.unibet.com.au/betting/sports/filter/${sport}/all/matches`,
 		{
-			waitUntil: "networkidle2",
+			waitUntil: "networkidle0",
 		}
 	);
 	page.setDefaultTimeout(120000);

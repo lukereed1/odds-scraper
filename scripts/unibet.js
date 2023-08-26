@@ -20,6 +20,9 @@ async function unibet(sport) {
 		const gameCards = document.querySelectorAll(".c21a2");
 
 		gameCards.forEach((game) => {
+			// If game is live skip it without scraping its data
+			if (game.querySelector("._026a0._868eb.fe33e")) return;
+
 			// All team names and odds within each card
 			const teams = game.querySelectorAll(".c539a");
 

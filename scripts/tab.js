@@ -41,8 +41,7 @@ async function tab(sport) {
 	});
 
 	await browser.close();
-	console.log(teamAndOdds);
+	return teamAndOdds;
 }
 
-tab("AFL%20Football/competitions/AFL");
 module.exports = { tab };

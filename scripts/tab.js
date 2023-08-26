@@ -12,11 +12,13 @@ async function tab(sport) {
 
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
-
 		// All game cards
 		const gameCards = document.querySelectorAll(".template-item");
 
 		gameCards.forEach((game) => {
+			// If game is live skip it without scraping its data
+			if (game.querySelector(".meta-data-item.in-play")) return;
+
 			// All team names and odds within each card
 			const teams = game.querySelectorAll(".match-name-text");
 
@@ -39,7 +41,8 @@ async function tab(sport) {
 	});
 
 	await browser.close();
-	return teamAndOdds;
+	console.log(teamAndOdds);
 }
 
+tab("AFL%20Football/competitions/AFL");
 module.exports = { tab };

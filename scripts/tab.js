@@ -1,4 +1,3 @@
-const { all } = require("axios");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
@@ -9,66 +8,40 @@ puppeteer.use(StealthPlugin());
 async function tab(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-	await page.goto(`https://www.tab.com.au/sports/betting/${sport}`, {
-		waitUntil: "networkidle0",
-	});
 	page.setDefaultTimeout(120000);
-	const teamsAndOdds = await page.evaluate(() => {
+	await page.goto(`https://www.tab.com.au/sports/betting/${sport}`, {
+		waitUntil: "networkidle2",
+	});
+
+	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+		// All game cards
+		const gameCards = document.querySelectorAll(".template-item");
 
-		// Teams playing each other
-		const allGames = document.querySelectorAll(".match-name-text");
+		gameCards.forEach((game) => {
+			// All team names and odds within each card
+			const teams = game.querySelectorAll(".match-name-text");
 
-		// All available match and line odds
-		const allOddsIncludingLines = document.querySelectorAll(".animate-odd");
+			const odds = game.querySelectorAll(".animate-odd");
 
-		// Removes lines odds if present
-		let oddsDataExcludingLines = [];
-		if (allOddsIncludingLines.length > allGames.length * 2) {
-			let skipCount = 0;
-			for (let i = 1; i < allOddsIncludingLines.length; i++) {
-				if (skipCount === 0) {
-					oddsDataExcludingLines.push(
-						allOddsIncludingLines[i].innerHTML,
-						allOddsIncludingLines[i + 1].innerHTML
-					);
-					skipCount = 3;
-				} else {
-					skipCount--;
-				}
-			}
-		} else {
-			allOddsIncludingLines.forEach((odds) =>
-				oddsDataExcludingLines.push(odds.innerHTML)
-			);
-		}
+			const [firstTeam, secondTeam] = teams[0].innerText.split(" v ");
 
-		// Inserts all teams playing into array
-		const teamsPlaying = [];
-		for (let i = 0; i < allGames.length; i++) {
-			teamsPlaying.push(allGames[i].innerText);
-		}
-
-		// Seperates teams into their own property and inserts all data into list of games
-		let j = 0;
-		for (let i = 0; i < teamsPlaying.length; i++) {
-			const [firstTeam, secondTeam] = teamsPlaying[i].split(" v ");
-			const gameData = {
+			const gamesData = {
 				bookie: "Tab",
 				firstTeam: firstTeam,
 				secondTeam: secondTeam,
-				firstTeamOdds: oddsDataExcludingLines[j],
-				secondTeamOdds: oddsDataExcludingLines[j + 1],
+				firstTeamOdds: odds[1].innerText,
+				secondTeamOdds: odds[2].innerText,
 			};
-			j += 2;
-			gamesList.push(gameData);
-		}
+
+			gamesList.push(gamesData);
+		});
 
 		return gamesList;
 	});
 
 	await browser.close();
-	return teamsAndOdds;
+	return teamAndOdds;
 }
 
 module.exports = { tab };

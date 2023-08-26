@@ -2,18 +2,17 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-/*--------------------------------------------------------------------*/
-/*------------------------Rugby League, AFL---------------------------*/
-/*--------------------------------------------------------------------*/
 async function boombet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	page.setDefaultTimeout(120000);
 	await page.goto(`https://www.boombet.com.au/sport-menu/Sport/${sport}`, {
 		waitUntil: "networkidle0",
 	});
-	page.setDefaultTimeout(120000);
+
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+
 		// All game cards
 		const gameCards = document.querySelectorAll(".listItemWrapper");
 

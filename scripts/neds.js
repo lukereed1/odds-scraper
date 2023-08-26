@@ -2,9 +2,6 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-/*--------------------------------------------------------------------*/
-/*------------------------Rugby League, AFL---------------------------*/
-/*--------------------------------------------------------------------*/
 async function neds(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -15,6 +12,7 @@ async function neds(sport) {
 
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+
 		// All game cards
 		const gameCards = document.querySelectorAll(
 			".sports-market-primary__prices-inner"

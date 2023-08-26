@@ -2,9 +2,6 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-/*--------------------------------------------------------------------*/
-/*------------------------Rugby league and AFL------------------------*/
-/*--------------------------------------------------------------------*/
 async function tab(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
@@ -15,6 +12,7 @@ async function tab(sport) {
 
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+
 		// All game cards
 		const gameCards = document.querySelectorAll(".template-item");
 

@@ -2,18 +2,17 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-/*--------------------------------------------------------------------*/
-/*------------------------Rugby League, AFL---------------------------*/
-/*--------------------------------------------------------------------*/
 async function betdeluxe(sportURL) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	page.setDefaultTimeout(120000);
 	await page.goto(`${sportURL}`, {
 		waitUntil: "networkidle0",
 	});
-	page.setDefaultTimeout(120000);
+
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+
 		// All game cards
 		const gameCards = document.querySelectorAll(
 			".css-2m31m3-sportsStyles-styled-sportsStyles__ItemContainer-sportsStyles-styled.errtm9l0"

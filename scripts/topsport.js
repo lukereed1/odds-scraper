@@ -2,19 +2,16 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-/*--------------------------------------------------------------------*/
-/*------------------------Rugby League, AFL---------------------------*/
-/*--------------------------------------------------------------------*/
 async function topsport(sport) {
 	const baseURL = "https://www.topsport.com.au/";
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-
+	page.setDefaultTimeout(120000);
 	await page.goto(`${baseURL}`, {
 		waitUntil: "networkidle0",
 	});
-	page.setDefaultTimeout(120000);
-	/* URL is different each week as it's based off round number
+
+	/* URL is different each week as it's based off round number.
     below finds the URL for the weekly games based on sport chosen*/
 	let href;
 	if (sport === "rugby-league") {
@@ -33,6 +30,7 @@ async function topsport(sport) {
 
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
+
 		// All game cards
 		const gameCards = document.querySelectorAll(".framePanel.wc_s_match");
 

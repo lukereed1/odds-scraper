@@ -8,76 +8,38 @@ puppeteer.use(StealthPlugin());
 async function unibet(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
+	page.setDefaultTimeout(120000);
 	await page.goto(
 		`https://www.unibet.com.au/betting/sports/filter/${sport}/all/matches`,
 		{
 			waitUntil: "networkidle0",
 		}
 	);
-	page.setDefaultTimeout(120000);
+
 	const teamAndOdds = await page.evaluate(() => {
-		let gamesList = [];
+		const gamesList = [];
+		// All game cards
+		const gameCards = document.querySelectorAll(".c21a2");
 
-		// All games
-		const allGames = document.querySelectorAll("._4d3a0");
+		gameCards.forEach((game) => {
+			// All team names and odds within each card
+			const teams = game.querySelectorAll(".c539a");
 
-		const allGamesNoDuplicates = [];
-		allGames.forEach((game) => {
-			let participant = game.querySelectorAll(".c539a");
-			allGamesNoDuplicates.push(
-				participant[0].innerText,
-				participant[1].innerText
-			);
-		});
+			const odds = game.querySelectorAll("._8e013");
 
-		const allOddsIncludingLines = document.querySelectorAll(".bb419");
-
-		const OddsDataExludingLines = [];
-		// Runs if line odds are present
-		if (allOddsIncludingLines.length > allGames.length) {
-			for (let i = 0; i < allOddsIncludingLines.length; i += 2) {
-				let matchOdds = allOddsIncludingLines[i].querySelectorAll("._8e013");
-				OddsDataExludingLines.push(
-					matchOdds[0].innerText,
-					matchOdds[1].innerText
-				);
-			}
-		}
-
-		// Runs if no line odds are present
-		if (allOddsIncludingLines.length * 2 === allGamesNoDuplicates.length) {
-			for (let i = 0; i < allOddsIncludingLines.length; i++) {
-				let matchOdds = allOddsIncludingLines[i].querySelectorAll("._8e013");
-				OddsDataExludingLines.push(
-					matchOdds[0].innerText,
-					matchOdds[1].innerText
-				);
-			}
-		}
-
-		// All team names and odds, without duplicates
-		let allTeamsAndOdds = [];
-		for (let i = 0; i < allGamesNoDuplicates.length; i++)
-			allTeamsAndOdds.push({
-				team: allGamesNoDuplicates[i],
-				odds: OddsDataExludingLines[i],
-			});
-
-		// Groups teams playing each other into objects with corresponding odds
-		for (let i = 0; i < allTeamsAndOdds.length; i += 2) {
-			let gameData = {
+			const gamesData = {
 				bookie: "Unibet",
-				firstTeam: allTeamsAndOdds[i].team,
-				secondTeam: allTeamsAndOdds[i + 1].team,
-				firstTeamOdds: allTeamsAndOdds[i].odds,
-				secondTeamOdds: allTeamsAndOdds[i + 1].odds,
+				firstTeam: teams[0].innerText,
+				secondTeam: teams[1].innerText,
+				firstTeamOdds: odds[0].innerText,
+				secondTeamOdds: odds[1].innerText,
 			};
-			gamesList.push(gameData);
-		}
+
+			gamesList.push(gamesData);
+		});
 
 		return gamesList;
 	});
-
 	await browser.close();
 	return teamAndOdds;
 }

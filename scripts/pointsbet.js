@@ -40,8 +40,7 @@ async function pointsbet(sport) {
 		return gamesList;
 	});
 	await browser.close();
-	console.log(teamAndOdds);
+	return teamAndOdds;
 }
 
-pointsbet("rugby-league/NRL");
 module.exports = { pointsbet };

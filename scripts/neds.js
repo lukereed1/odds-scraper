@@ -3,43 +3,39 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 /*--------------------------------------------------------------------*/
-/*--------------------Rugby league, AFL, Baseball---------------------*/
+/*------------------------Rugby League, AFL---------------------------*/
 /*--------------------------------------------------------------------*/
 async function neds(sport) {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
-	await page.goto(`https://www.neds.com.au/sports/${sport}`, {
-		waitUntil: "networkidle0",
-	});
 	page.setDefaultTimeout(120000);
+	await page.goto(`https://www.neds.com.au/sports/${sport}`, {
+		waitUntil: "networkidle2",
+	});
+
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
-
-		// Selects all teams
-		const allTeams = document.querySelectorAll(".displayTitle");
-
-		// All odds data
-		const teamsOdds = document.querySelectorAll(
-			"[data-testid='price-button-odds']"
+		// All game cards
+		const gameCards = document.querySelectorAll(
+			".sports-market-primary__prices-inner"
 		);
 
-		// Inserts all team names into games list
-		for (let i = 0; i < allTeams.length; i += 2) {
+		gameCards.forEach((game) => {
+			// All team names and odds within each card
+			const teams = game.querySelectorAll(".displayTitle");
+
+			const odds = game.querySelectorAll(".price-button-odds-price");
+
 			const gamesData = {
 				bookie: "Neds",
-				firstTeam: allTeams[i].innerHTML,
-				secondTeam: allTeams[i + 1].innerHTML,
+				firstTeam: teams[0].innerText,
+				secondTeam: teams[1].innerText,
+				firstTeamOdds: odds[0].innerText,
+				secondTeamOdds: odds[1].innerText,
 			};
-			gamesList.push(gamesData);
-		}
 
-		// Inserts odds with teams in games list
-		let j = 0;
-		for (let i = 0; i < gamesList.length; i++) {
-			gamesList[i].firstTeamOdds = teamsOdds[j].innerHTML;
-			gamesList[i].secondTeamOdds = teamsOdds[j + 1].innerHTML;
-			j += 2;
-		}
+			gamesList.push(gamesData);
+		});
 
 		return gamesList;
 	});
@@ -48,6 +44,4 @@ async function neds(sport) {
 	return teamAndOdds;
 }
 
-module.exports = {
-	neds,
-};
+module.exports = { neds };

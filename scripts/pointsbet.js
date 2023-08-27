@@ -13,10 +13,14 @@ async function pointsbet(sport) {
 	const teamAndOdds = await page.evaluate(() => {
 		const gamesList = [];
 
+		let liveGameCount = document.querySelectorAll(".f18p45g0").length;
+
 		// All game cards
-		const gameCards = document.querySelectorAll(".fdz3fpy.f1yn18fe.f93i66z");
+		const gameCards = document.querySelectorAll(".f3wis39");
 
 		gameCards.forEach((game) => {
+			if (game.querySelector(".f18p45g0")) return;
+
 			// All team names and odds within each card
 			const teams = game.querySelectorAll(
 				".f193t5zp.f1r0ggt8.f1wtz5iq.f1rokedd"
@@ -25,7 +29,7 @@ async function pointsbet(sport) {
 			const odds = game.querySelectorAll(".fheif50");
 
 			const gamesData = {
-				bookie: "Neds",
+				bookie: "Pointsbet",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
 				firstTeamOdds: odds[0].innerText,

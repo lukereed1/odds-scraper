@@ -24,6 +24,8 @@ async function topsport(sport) {
 			const hrefElement = document.querySelector(".icon-AFL");
 			return hrefElement.getAttribute("href");
 		});
+	} else if (sport === "mlb") {
+		href = "Sport/Baseball/MLB_Match/Matches";
 	}
 	// Goes to a new page with href and base URL found above
 	await page.goto(`${baseURL}${href}`, { waitUntil: "networkidle0" });
@@ -39,12 +41,16 @@ async function topsport(sport) {
 			const teams = game.querySelectorAll(".teamSilkBlock");
 			const odds = game.querySelectorAll(".betlink.oddsColumn");
 
+			const firstTeamOdds = odds[0].innerText;
+			const secondTeamOdds =
+				odds.length < 6 ? odds[2].innerText : odds[3].innerText;
+
 			const gamesData = {
 				bookie: "TopSport",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
-				firstTeamOdds: odds[0].innerText,
-				secondTeamOdds: odds[3].innerText,
+				firstTeamOdds: firstTeamOdds,
+				secondTeamOdds: secondTeamOdds,
 			};
 
 			gamesList.push(gamesData);

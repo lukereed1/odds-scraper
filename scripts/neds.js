@@ -80,9 +80,7 @@ async function nedsSoccer(league) {
 	});
 
 	await browser.close();
-	console.log(teamAndOdds);
+	return teamAndOdds;
 }
-
-nedsSoccer("uk-ireland/premier-league");
 
 module.exports = { neds, nedsSoccer };

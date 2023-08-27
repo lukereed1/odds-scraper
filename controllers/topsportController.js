@@ -1,4 +1,4 @@
-const { topsport } = require("../scripts/topsport");
+const { topsport, topsportSoccer } = require("../scripts/topsport");
 
 const rugbyLeague = async (req, res) => {
 	try {
@@ -27,4 +27,13 @@ const mlb = async (req, res) => {
 	}
 };
 
-module.exports = { rugbyLeague, afl, mlb };
+const epl = async (req, res) => {
+	try {
+		const gameData = await topsportSoccer("English_Premier_League/Matches");
+		res.status(200).json(gameData);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
+module.exports = { rugbyLeague, afl, mlb, epl };

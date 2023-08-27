@@ -1,4 +1,4 @@
-const { palmerbet } = require("../scripts/palmerbet");
+const { palmerbet, palmerbetSoccer } = require("../scripts/palmerbet");
 
 const rugbyLeague = async (req, res) => {
 	try {
@@ -33,4 +33,15 @@ const mlb = async (req, res) => {
 	}
 };
 
-module.exports = { rugbyLeague, afl, mlb };
+const epl = async (req, res) => {
+	try {
+		const gameData = await palmerbetSoccer(
+			"https://www.palmerbet.com/sports/soccer/England%20Premier%20League/b4073512-cdd5-4953-950f-3f7ad31fa955"
+		);
+		res.status(200).json(gameData);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
+module.exports = { rugbyLeague, afl, mlb, epl };

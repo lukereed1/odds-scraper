@@ -5,7 +5,7 @@
 	"main": "server.js",
 	"bin": "server.js",
 	"scripts": {
-		"start": "node ./scripts/unibet.js",
+		"start": "node server.js",
 		"server": "nodemon server.js",
 		"build": "rm -rf build && pkg . --out-path build",
 		"postbuild": "cp -R ./node_modules/puppeteer/.local-chromium build/chromium"

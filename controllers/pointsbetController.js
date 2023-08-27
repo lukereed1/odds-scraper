@@ -1,4 +1,4 @@
-const { pointsbet } = require("../scripts/pointsbet");
+const { pointsbet, pointsbetSoccer } = require("../scripts/pointsbet");
 
 const rugbyLeague = async (req, res) => {
 	try {
@@ -27,4 +27,13 @@ const mlb = async (req, res) => {
 	}
 };
 
-module.exports = { rugbyLeague, afl, mlb };
+const epl = async (req, res) => {
+	try {
+		const gameData = await pointsbetSoccer("English-Premier-League");
+		res.status(200).json(gameData);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
+module.exports = { rugbyLeague, afl, mlb, epl };

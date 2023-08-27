@@ -1,4 +1,4 @@
-const { neds } = require("../scripts/neds");
+const { neds, nedsSoccer } = require("../scripts/neds");
 
 const rugbyLeague = async (req, res) => {
 	try {
@@ -27,4 +27,13 @@ const mlb = async (req, res) => {
 	}
 };
 
-module.exports = { rugbyLeague, afl, mlb };
+const epl = async (req, res) => {
+	try {
+		const gameData = await nedsSoccer("uk-ireland/premier-league");
+		res.status(200).json(gameData);
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
+
+module.exports = { rugbyLeague, afl, mlb, epl };

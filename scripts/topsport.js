@@ -39,6 +39,7 @@ async function topsport(sport) {
 		gameCards.forEach((game) => {
 			// All team names and odds within each card
 			const teams = game.querySelectorAll(".teamSilkBlock");
+
 			const odds = game.querySelectorAll(".betlink.oddsColumn");
 
 			const firstTeamOdds = odds[0].innerText;
@@ -63,4 +64,43 @@ async function topsport(sport) {
 	return teamAndOdds;
 }
 
-module.exports = { topsport };
+async function topsportSoccer(league) {
+	const browser = await puppeteer.launch();
+	const page = await browser.newPage();
+	page.setDefaultTimeout(120000);
+	await page.goto(`https://www.topsport.com.au/Sport/Soccer/${league}`, {
+		waitUntil: "networkidle0",
+	});
+
+	const teamAndOdds = await page.evaluate(() => {
+		const gamesList = [];
+
+		// All game cards
+		const gameCards = document.querySelectorAll(".framePanel.wc_s_match");
+
+		gameCards.forEach((game) => {
+			// All team names and odds within each card
+			const teams = game.querySelectorAll(".teamSilkBlock");
+
+			const odds = game.querySelectorAll(".betlink.oddsColumn");
+
+			const gamesData = {
+				bookie: "TopSport",
+				firstTeam: teams[0].innerText,
+				secondTeam: teams[1].innerText,
+				firstTeamOdds: odds[0].innerText,
+				drawOdds: odds[1].innerText,
+				secondTeamOdds: odds[4].innerText,
+			};
+
+			gamesList.push(gamesData);
+		});
+
+		return gamesList;
+	});
+
+	await browser.close();
+	return teamAndOdds;
+}
+
+module.exports = { topsport, topsportSoccer };

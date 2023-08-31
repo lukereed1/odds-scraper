@@ -67,7 +67,7 @@ async function nedsSoccer(league) {
 			const gamesData = {
 				bookie: "Neds",
 				firstTeam: teams[0].innerText,
-				secondTeam: teams[1].innerText,
+				secondTeam: teams[2].innerText,
 				firstTeamOdds: odds[0].innerText,
 				drawOdds: odds[1].innerText,
 				secondTeamOdds: odds[2].innerText,

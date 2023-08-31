@@ -84,13 +84,17 @@ async function topsportSoccer(league) {
 
 			const odds = game.querySelectorAll(".betlink.oddsColumn");
 
+			const firstTeamOdds = odds[0].innerText;
+			const secondTeamOdds =
+				odds.length < 7 ? odds[3].innerText : odds[4].innerText;
+
 			const gamesData = {
 				bookie: "TopSport",
 				firstTeam: teams[0].innerText,
 				secondTeam: teams[1].innerText,
-				firstTeamOdds: odds[0].innerText,
+				firstTeamOdds: firstTeamOdds,
 				drawOdds: odds[1].innerText,
-				secondTeamOdds: odds[4].innerText,
+				secondTeamOdds: secondTeamOdds,
 			};
 
 			gamesList.push(gamesData);

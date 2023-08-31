@@ -35,6 +35,8 @@ async function sportsbet(sport) {
 				".size14_f7opyze.bold_f1au7gae.priceTextSize_frw9zm9"
 			);
 
+			if (odds.length === 0) return;
+
 			const gamesData = {
 				bookie: "SportsBet",
 				firstTeam: teams[0].innerText,
@@ -75,10 +77,6 @@ async function sportsbetSoccer(league) {
 			const teams = game.querySelectorAll(
 				".size12_fq5j3k2.normal_fgzdi7m.caption_f4zed5e"
 			);
-
-			// const oddsColumn = game.querySelector(
-			// 	".market-coupon-col-0.gridColumn_frfjtr6"
-			// );
 
 			const odds = game.querySelectorAll(
 				".size14_f7opyze.bold_f1au7gae.priceTextSize_frw9zm9"
